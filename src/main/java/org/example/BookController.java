@@ -4,8 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class BookController {
 
     private final BookDao bookDao;
@@ -15,8 +18,7 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    @ResponseBody
-    public String add(){
+    public String add() {
 
         Publisher publisher = new Publisher();
         publisher.setName("Nazwa");
@@ -33,9 +35,24 @@ public class BookController {
     }
 
     @GetMapping("/book/{id}")
-    public String get(@PathVariable BigInteger id){
+    public String get(@PathVariable BigInteger id) {
 
         System.out.println("Test");
         return bookDao.get(id).toString();
     }
+
+    @GetMapping("/book")
+    public String findAll(@RequestParam(required = false) Integer rating) {
+
+        List<Book> books;
+        if (rating != null) {
+            books = bookDao.findAllByRating(rating);
+        } else {
+            books = bookDao.findAll();
+        }
+        return books.stream()
+                .map(Book::toString)
+                .collect(Collectors.joining(","));
+    }
+
 }
