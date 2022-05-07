@@ -18,6 +18,8 @@
                      path="publisher" items="${publishers}"/>
 
         <input type="submit" value="Wyślij">
+
+        <form:errors path="*" />
     </form:form>
 
 </body>

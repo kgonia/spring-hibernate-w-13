@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.repository.BookRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ import java.util.stream.Collectors;
 @RestController
 public class BookController {
 
-    private final BookDao bookDao;
+    private final BookRepository bookRepository;
 
-    public BookController(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     @PostMapping("/book")
@@ -29,7 +30,7 @@ public class BookController {
         book.setRating(10);
         book.setPublisher(publisher);
 
-        bookDao.save(book);
+        bookRepository.save(book);
 
         return book.toString();
     }
@@ -38,17 +39,20 @@ public class BookController {
     public String get(@PathVariable BigInteger id) {
 
         System.out.println("Test");
-        return bookDao.get(id).toString();
+        return bookRepository.getOne(id).toString();
     }
 
     @GetMapping("/book")
-    public String findAll(@RequestParam(required = false) Integer rating) {
+    public String findAll(@RequestParam(required = false) Integer rating,
+                          @RequestParam(required = false) String title) {
 
         List<Book> books;
         if (rating != null) {
-            books = bookDao.findAllByRating(rating);
+            books = bookRepository.findAllByRating(rating);
+        } else if(title != null){
+            books = bookRepository.findByTitle(title);
         } else {
-            books = bookDao.findAll();
+            books = bookRepository.findAll();
         }
         return books.stream()
                 .map(Book::toString)

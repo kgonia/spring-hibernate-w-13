@@ -29,10 +29,14 @@ public class Book {
     @Size(max = 600)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "publisher_id")
     @NotNull
     private Publisher publisher;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Min(2)
     private Integer pages;
