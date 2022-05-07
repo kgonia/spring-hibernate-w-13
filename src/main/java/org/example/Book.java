@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -14,17 +15,27 @@ public class Book {
     private BigInteger id;
 
     @Column(nullable = false, unique = true, length = 100)
+    @Size(min = 5, max = 100)
+    @NotBlank
     private String title;
 
     @Column(nullable = false)
+    @Min(value = 1)
+    @Max(value = 10)
+    @NotNull
     private Integer rating;
 
-    @Column(length = 1000)
+    @Column(length = 600)
+    @Size(max = 600)
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "publisher_id")
+    @NotNull
     private Publisher publisher;
+
+    @Min(2)
+    private Integer pages;
 
     public BigInteger getId() {
         return id;

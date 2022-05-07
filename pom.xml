@@ -22,6 +22,7 @@
         <mysql.version>8.0.17</mysql.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.version>2.3.0</javax.version>
+        <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
@@ -56,6 +57,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <dependency>
